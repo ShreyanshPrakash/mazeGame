@@ -50,6 +50,37 @@ body {
   cursor: not-allowed;
 }
 
+/*  */
+
+/* Game Stats css */
+
+.gameStats {
+  background-color: #2e86de;
+
+  padding: 16px 24px;
+  font-size: 20px;
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.gameStats .stats-info{
+  display: flex;
+}
+
+.gameStats .stats-info .stats-item {
+  margin-right: 32px;
+}
+
+
+.gameStats .stats-action button {
+  cursor: pointer;
+  border-radius: 24px;
+}
+
+
+/*  */
+
 /* Board css */
 
 .row{
@@ -66,6 +97,12 @@ body {
   align-items: center;
 }
 
+.board-wrapper {
+  width: fit-content;
+  margin: 48px auto;
+}
+
+/*  */
 
 
 /* Modal Css */
@@ -126,4 +163,30 @@ body {
   letter-spacing: 1px;
   cursor: pointer;
 
+}
+
+/* .modal-wrapper .modal-body .modal-action button:focus {
+
+  font-size: 16px;
+  padding: 8px 24px;
+  margin-left: 16px;
+  background-color: #3E5DAF;
+  color:white;
+  border: 2px solid #3E5DAF;
+  border-radius: 6px;
+  letter-spacing: 1px;
+  cursor: pointer;
+} */
+
+.modal-wrapper .modal-body .modal-action button:hover {
+
+  font-size: 16px;
+  padding: 8px 24px;
+  margin-left: 16px;
+  background-color: #3E5DAF;
+  color:white;
+  border: 2px solid #3E5DAF;
+  border-radius: 6px;
+  letter-spacing: 1px;
+  cursor: pointer;
 }

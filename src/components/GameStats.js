@@ -3,30 +3,53 @@ import React from 'react';
 
 export function GameStats({
     stats = [],
-}){
+    actions = [],
+}) {
 
 
-    return(
+    return (
         <React.Fragment>
             <div className="gameStats">
-                {
-                    stats.map( (item,index) => {
+                <div className="stats-info">
+                    {
+                        stats.map((item, index) => {
 
-                        const {
-                            title,
-                            value,
-                        } = item;
+                            const {
+                                title,
+                                value,
+                            } = item;
 
-                        return (
-                            <React.Fragment>
-                                <div className="stat-item">
-                                    <span>{title} : </span>
-                                    <span>{value}</span>
-                                </div>
-                            </React.Fragment>
-                        )
-                    })
-                }
+                            return (
+                                <React.Fragment>
+                                    <div className="stats-item">
+                                        <div>{title}</div>
+                                        <div>{value}</div>
+                                    </div>
+                                </React.Fragment>
+                            )
+                        })
+                    }
+                </div>
+                <div className="stats-action">
+                    {
+                        actions.map((item, index) => {
+
+                            const {
+                                buttonIconPath,
+                                handler
+                            } = item;
+
+                            return (
+                                <React.Fragment>
+                                    <button onClick={handler}>
+                                        <img src={`${process.env.PUBLIC_URL}${buttonIconPath}`} width="40" height="40" alt="restart"></img>;
+                                    </button>
+                                </React.Fragment>
+                            )
+
+                        })
+                    }
+                </div>
             </div>
         </React.Fragment>
     )

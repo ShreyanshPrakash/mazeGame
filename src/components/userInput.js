@@ -26,10 +26,6 @@ export function UserInput({
 
     }
 
-    // useEffect(() => {
-    //     console.log(formState);
-    // }, [formState])
-
     return (
         <React.Fragment>
             <div className="user-input-wrapper">

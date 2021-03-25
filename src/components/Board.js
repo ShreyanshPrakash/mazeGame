@@ -8,22 +8,22 @@ export function Board({
     dimensions = {},
     marioIndex = {},
     mushrooms = [],
-}){
+}) {
 
     const generateBoard = () => {
 
         let cells = [];
 
-        for(let i = 1; i <= dimensions.height; i++){
+        for (let i = 1; i <= dimensions.height; i++) {
             let rowCells = [];
-            for( let j = 1; j <= dimensions.width; j++ ){
+            for (let j = 1; j <= dimensions.width; j++) {
                 let x = Math.floor(Math.random() * dimensions.height);
                 let y = Math.floor(Math.random() * dimensions.width);
                 rowCells.push(
                     <Cell
                         cellIndex={j}
                         isMario={marioIndex.hIndex === i && marioIndex.wIndex === j}
-                        isMashroom={ mushrooms.filter( item => item.x === i && item.y === j).length > 0 }
+                        isMashroom={mushrooms.filter(item => item.x === i && item.y === j).length > 0}
                     />
                 )
             }
@@ -41,9 +41,9 @@ export function Board({
 
     return (
         <React.Fragment>
-
-            {generateBoard()}
-           
+            <div className="board-wrapper">
+                {generateBoard()}
+            </div>
         </React.Fragment>
     )
 }

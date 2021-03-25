@@ -194,15 +194,15 @@ export function Maze() {
                                 { title: "Mushrooms Left", value: gameStats.mushroomsLeft },
                                 { title: "Moves", value: gameStats.moves }
                             ]}
+                            actions={[
+                                { buttonIconPath: "/restart.png", handler: handleGameRestart },
+                            ]}
                         />
                         <Board
                             dimensions={boardDimensions}
                             marioIndex={marioIndex}
                             mushrooms={mushrooms}
                         />
-                        <div className="maze-action">
-                            <button onClick={handleGameRestart}>Restart</button>
-                        </div>
                     </div>
                 }
 
