@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import {
     UserInputModel,
-} from './../models';
+} from '../models';
 
 export function UserInput({
     userInputSubmit = () => { },
@@ -26,32 +26,36 @@ export function UserInput({
 
     }
 
-    useEffect( () => {
+    useEffect(() => {
         console.log(formState);
     }, [formState])
 
     return (
         <React.Fragment>
-            <form
-                autoComplete="off"
-                onSubmit={handleFormSubmit}
-            >
-                <label>
-                    Maze Height :
-                    <input name="height" value={formState.height} onChange={handleInputChange}
-                        type="number" min="0" max="20">
-                    </input>
-                </label>
-                <label>
-                    Maze Width :
-                    <input name="width" value={formState.width} onChange={handleInputChange}
-                        type="number" min="0" max="20">
-                    </input>
-                </label>
-                <button type="submit" disabled={!(formState.height && formState.width)}>
-                    Start
+            <div className="user-input-wrapper">
+                <form
+                    autoComplete="off"
+                    onSubmit={handleFormSubmit}
+                >
+                    <label>
+                        Maze Height :
+                    <input name="height" placeholder="Enter maze height"
+                            value={formState.height} onChange={handleInputChange}
+                            type="number" min="0" max="20">
+                        </input>
+                    </label>
+                    <label>
+                        Maze Width :
+                    <input name="width" placeholder="Enter maze width"
+                            value={formState.width} onChange={handleInputChange}
+                            type="number" min="0" max="20">
+                        </input>
+                    </label>
+                    <button type="submit" disabled={!(formState.height && formState.width)}>
+                        Start
                 </button>
-            </form>
+                </form>
+            </div>
         </React.Fragment>
     )
 }

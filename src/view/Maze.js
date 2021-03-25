@@ -9,7 +9,7 @@ import {
 } from './../components';
 
 
-export function Maze(){
+export function Maze() {
 
     const [boardDimensions, setBoardDimensions] = useState(new BoardDimensionsModel());
     const [marioIndex, setMarioIndex] = useState(new MarioIndexModel());
@@ -17,8 +17,8 @@ export function Maze(){
     const [gameStats, setGameStats] = useState(new GameStatsModel());
 
 
-    useEffect( () => {
-        if(boardDimensions.height){
+    useEffect(() => {
+        if (boardDimensions.height) {
             document.addEventListener('keydown', handleKeyDown);
         }
         return () => {
@@ -26,24 +26,24 @@ export function Maze(){
         }
     }, [marioIndex, mushrooms])
 
-    useEffect( () => {
+    useEffect(() => {
         const {
             height,
             width,
         } = boardDimensions;
 
         setMarioIndex({
-            hIndex: Math.ceil(height/2),
-            wIndex: Math.ceil(width/2),
+            hIndex: Math.ceil(height / 2),
+            wIndex: Math.ceil(width / 2),
         })
 
 
         let mushrooms = [];
-        for(let i = 1; i <= Math.floor((height + width)/2); i++){
+        for (let i = 1; i <= Math.floor((height + width) / 2); i++) {
             let x = Math.floor(Math.random() * height) || 1;
             let y = Math.floor(Math.random() * width) || 1;
-            if(!mushrooms.filter( item => item.x === x && item.y === y).length){
-                mushrooms.push({x,y});
+            if (!mushrooms.filter(item => item.x === x && item.y === y).length) {
+                mushrooms.push({ x, y });
             }
         }
 
@@ -59,37 +59,37 @@ export function Maze(){
     }, [boardDimensions])
 
 
-    const handleKeyDown = ({key}) => {
+    const handleKeyDown = ({ key }) => {
 
         let hIndex = marioIndex.hIndex;
         let wIndex = marioIndex.wIndex;
 
-        switch(key){
+        switch (key) {
 
 
             case "ArrowUp": {
-                if(hIndex - 1){
+                if (hIndex - 1) {
                     hIndex = hIndex - 1;
                 }
                 break;
             }
 
             case "ArrowDown": {
-                if(hIndex < boardDimensions.height){
+                if (hIndex < boardDimensions.height) {
                     hIndex = hIndex + 1;
                 }
                 break;
             }
 
             case "ArrowLeft": {
-                if(wIndex - 1){
+                if (wIndex - 1) {
                     wIndex--;
                 }
                 break;
             }
 
             case "ArrowRight": {
-                if(wIndex < boardDimensions.width){
+                if (wIndex < boardDimensions.width) {
                     wIndex++;
                 }
                 break;
@@ -101,8 +101,8 @@ export function Maze(){
 
         }
 
-        setMarioIndex({hIndex, wIndex});
-        let mushroomsLeft = mushrooms.filter( item => !(item.x === hIndex && item.y === wIndex));
+        setMarioIndex({ hIndex, wIndex });
+        let mushroomsLeft = mushrooms.filter(item => !(item.x === hIndex && item.y === wIndex));
         setMushrooms(mushroomsLeft);
         setGameStats(state => {
             return {
@@ -125,33 +125,56 @@ export function Maze(){
         setBoardDimensions(input);
     }
 
+
+    const handleModalClose = () => {
+
+    }
+
+    const handleGameRestart = () => {
+
+    }
+
     return (
         <React.Fragment>
-            <UserInput
-                userInputSubmit={handleUserInputSubmit}
-            />
+            <div className="maze-wrapper">
+                {
+                    boardDimensions.height === 0 && boardDimensions.width === 0 &&
+                    <UserInput
+                        userInputSubmit={handleUserInputSubmit}
+                    />
+                }
 
-            <GameStats
-                stats={[
-                    {title: "Mushrooms Left", value: gameStats.mushroomsLeft},
-                    {title: "Moves", value: gameStats.moves}
-                ]}
-            />
-            {
-                boardDimensions.height > 0 && boardDimensions.width > 0 &&
-                <Board
-                    dimensions={boardDimensions}
-                    marioIndex={marioIndex}
-                    mushrooms={mushrooms}
-                />
-            }
 
-            {
-                gameStats.mushroomsLeft === 0 && gameStats.moves > 0 &&
-                <Modal
-                    message={`You have completed the mario maze in ${gameStats.moves} moves only`}
-                />
-            }
+                {
+                    boardDimensions.height > 0 && boardDimensions.width > 0 &&
+                    <div className="board-maze">
+                        <GameStats
+                            stats={[
+                                { title: "Mushrooms Left", value: gameStats.mushroomsLeft },
+                                { title: "Moves", value: gameStats.moves }
+                            ]}
+                        />
+                        <Board
+                            dimensions={boardDimensions}
+                            marioIndex={marioIndex}
+                            mushrooms={mushrooms}
+                        />
+                    </div>
+                }
+
+                {
+                    gameStats.mushroomsLeft === 0 && gameStats.moves > 0 &&
+                    <Modal
+                        title="Game over"
+                        message={`Congratulations, You have completed the mario maze in ${gameStats.moves} moves only`}
+                        actions={[
+                            { buttonText: "Close", handler: handleModalClose },
+                            { buttonText: "Restart", handler: handleGameRestart },
+                        ]}
+
+                    />
+                }
+            </div>
         </React.Fragment>
     )
 }
