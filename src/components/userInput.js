@@ -26,9 +26,9 @@ export function UserInput({
 
     }
 
-    useEffect(() => {
-        console.log(formState);
-    }, [formState])
+    // useEffect(() => {
+    //     console.log(formState);
+    // }, [formState])
 
     return (
         <React.Fragment>

@@ -31,3 +31,12 @@ export class GameStatsModel{
         
     }
 }
+
+
+export class UIStateModel{
+    constructor(){
+        this.showModal = false;
+        this.showBoard = false;
+        this.isGameActive = false;
+    }
+}

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { BoardDimensionsModel, GameStatsModel, MarioIndexModel } from '../models/board';
+import { BoardDimensionsModel, GameStatsModel, MarioIndexModel, UIStateModel } from '../models/board';
 
 import {
     Board,
@@ -15,6 +15,7 @@ export function Maze() {
     const [marioIndex, setMarioIndex] = useState(new MarioIndexModel());
     const [mushrooms, setMushrooms] = useState([]);
     const [gameStats, setGameStats] = useState(new GameStatsModel());
+    const [uiState, setUiState] = useState(new UIStateModel());
 
 
     useEffect(() => {
@@ -31,6 +32,22 @@ export function Maze() {
             height,
             width,
         } = boardDimensions;
+
+        if (height > 0 && width > 0) {
+            setUiState(state => {
+                return {
+                    ...state,
+                    showBoard: true,
+                }
+            })
+        } else {
+            setUiState(state => {
+                return {
+                    ...state,
+                    showBoard: false,
+                }
+            })
+        }
 
         setMarioIndex({
             hIndex: Math.ceil(height / 2),
@@ -52,11 +69,23 @@ export function Maze() {
             return {
                 ...state,
                 moves: 0,
+                isGameActive: mushrooms.length ? true : false,
                 mushroomsLeft: mushrooms.length
             }
         })
 
     }, [boardDimensions])
+
+    useEffect( () => {
+        if( gameStats.isGameActive && gameStats.mushroomsLeft === 0){
+            setUiState(state => {
+                return {
+                    ...state,
+                    showModal: true,
+                }
+            })
+        }
+    }, [gameStats])
 
 
     const handleKeyDown = ({ key }) => {
@@ -107,7 +136,8 @@ export function Maze() {
         setGameStats(state => {
             return {
                 ...state,
-                moves: state.moves++,
+                moves: mushrooms.length ? state.moves++ : state.moves,
+                isGameActive: mushrooms.length ? true : false,
                 mushroomsLeft: mushroomsLeft.length
             }
         })
@@ -127,21 +157,29 @@ export function Maze() {
 
 
     const handleModalClose = () => {
-
+        setUiState(state => {
+            return {
+                ...state,
+                showModal: false,
+                isGameActive: false,
+            }
+        })
+        document.removeEventListener('keydown', handleKeyDown);
     }
 
     const handleGameRestart = () => {
-        setBoardDimensions( new BoardDimensionsModel());
-        setMarioIndex( new MarioIndexModel());
+        setBoardDimensions(new BoardDimensionsModel());
+        setMarioIndex(new MarioIndexModel());
         setMushrooms([]);
-        setGameStats( new GameStatsModel());
+        setGameStats(new GameStatsModel());
+        setUiState(new UIStateModel());
     }
 
     return (
         <React.Fragment>
             <div className="maze-wrapper">
                 {
-                    boardDimensions.height === 0 && boardDimensions.width === 0 &&
+                    !uiState.showBoard &&
                     <UserInput
                         userInputSubmit={handleUserInputSubmit}
                     />
@@ -149,7 +187,7 @@ export function Maze() {
 
 
                 {
-                    boardDimensions.height > 0 && boardDimensions.width > 0 &&
+                    uiState.showBoard &&
                     <div className="board-maze">
                         <GameStats
                             stats={[
@@ -162,11 +200,14 @@ export function Maze() {
                             marioIndex={marioIndex}
                             mushrooms={mushrooms}
                         />
+                        <div className="maze-action">
+                            <button onClick={handleGameRestart}>Restart</button>
+                        </div>
                     </div>
                 }
 
                 {
-                    gameStats.mushroomsLeft === 0 && gameStats.moves > 0 &&
+                    uiState.showModal &&
                     <Modal
                         title="Game over"
                         message={`Congratulations, You have completed the mario maze in ${gameStats.moves} moves only`}
