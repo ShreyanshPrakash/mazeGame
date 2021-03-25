@@ -38,14 +38,14 @@ export function UserInput({
                     onSubmit={handleFormSubmit}
                 >
                     <label>
-                        Maze Height :
+                        Maze Height* :
                     <input name="height" placeholder="Enter maze height"
                             value={formState.height} onChange={handleInputChange}
                             type="number" min="0" max="20">
                         </input>
                     </label>
                     <label>
-                        Maze Width :
+                        Maze Width* :
                     <input name="width" placeholder="Enter maze width"
                             value={formState.width} onChange={handleInputChange}
                             type="number" min="0" max="20">

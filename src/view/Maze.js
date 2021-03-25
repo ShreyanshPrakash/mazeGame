@@ -131,7 +131,10 @@ export function Maze() {
     }
 
     const handleGameRestart = () => {
-
+        setBoardDimensions( new BoardDimensionsModel());
+        setMarioIndex( new MarioIndexModel());
+        setMushrooms([]);
+        setGameStats( new GameStatsModel());
     }
 
     return (
