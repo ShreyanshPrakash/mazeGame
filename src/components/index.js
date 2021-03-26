@@ -1,5 +1,5 @@
 
-export * from './UserInput';
+export * from './userInput';
 export * from './Board';
 export * from './Cell';
 export * from './GameStats';
